@@ -1,0 +1,24 @@
+#!/bin/bash
+#SBATCH --mem=64G
+#SBATCH --job-name=RNA2CMindex
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=jmpvales1@sheffield.ac.uk
+#SBATCH --output=hybrid_test_%j.log
+
+ 
+# load modules needed
+module load STAR/2.7.10b-GCC-11.3.0
+
+# open the appropriate subdirectory
+cd /mnt/parscratch/users/bip23jmv/RNA2CM/data/GRCh38
+
+# run STAR to create index files for human genome
+STAR --runThreadN 64 --runMode genomeGenerate --genomeDir /mnt/parscratch/users/bip23jmv/RNA2CM/data/GRCh38 --genomeFastaFiles /mnt/parscratch/users/bip23jmv/RNA2CM/data/GRCh38.primary_assembly.genome.fa --sjdbGTFfile /mnt/parscratch/users/bip23jmv/RNA2CM/data/gencode.v34.primary_assembly.annotation.gtf --sjdbOverhang 100
+
+
+# open the appropriate subdirectory
+cd /mnt/parscratch/users/bip23jmv/RNA2CM/data/GRCm3
+
+# run STAR to create index files for mouse genome
+STAR --runThreadN 64 --runMode genomeGenerate --genomeDir /mnt/parscratch/users/bip23jmv/RNA2CM/data/GRCm38 --genomeFastaFiles /mnt/parscratch/users/bip23jmv/RNA2CM/data/GRCm38.primary_assembly.genome.fa --sjdbGTFfile /mnt/parscratch/users/bip23jmv/RNA2CM/data/gencode.vM25.primary_assembly.annotation.gtf --sjdbOverhang 100
+
